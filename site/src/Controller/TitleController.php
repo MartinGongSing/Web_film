@@ -6,16 +6,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Film;
+use App\Repository\FilmRepository;
 
 class TitleController extends AbstractController
 {
     /**
      * @Route("/title", name="title")
      */
-    public function index(): Response
+    public function index(FilmRepository $repo ): Response
     {
-        $repo = $this->getDoctrine()->getRepository(Film::class);
-        
         $films=$repo->findAll();
 
         return $this->render('title/index.html.twig', [
