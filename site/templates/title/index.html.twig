@@ -4,10 +4,19 @@
 
 {% block body %}
     <section class="film">
-        <h1>Films Classés par </h1>
-        <h2>Titres</h2>
+        <h2>Films Classés par </h2>
+        <h1>Titres</h1>
         <p> Dans index.html.twig</p>
     
+    {% for film in films %}
+        <p> {{ film.Number}} </p>
+        <h2> {{ film.Title }} , {{ film.Year}} </h2>
+        <h3> {{ film.Theme}}  </h3>
+        <h4> {{ film.Actor}} <br> <br><br> </h4>
+
+        
+    {% endfor %}
+
     </section>
 
 

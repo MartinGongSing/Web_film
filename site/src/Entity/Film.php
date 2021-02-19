@@ -48,11 +48,6 @@ class Film
     private $Prop;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $Duration;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $Info;
@@ -134,17 +129,6 @@ class Film
         return $this;
     }
 
-    public function getDuration(): ?int
-    {
-        return $this->Duration;
-    }
-
-    public function setDuration(?int $Duration): self
-    {
-        $this->Duration = $Duration;
-
-        return $this;
-    }
 
     public function getInfo(): ?string
     {
