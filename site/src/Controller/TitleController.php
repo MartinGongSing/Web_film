@@ -14,14 +14,27 @@ class TitleController extends AbstractController
     public function index(): Response
     {
         return $this->render('title/index.html.twig', [
-            'controller_name' => 'TitleController',
+            'title' => 'Title Page',
         ]);
     }
 
     /**
      * @Route("/", name="home")
      */
-    public function home(){
-        return $this->render('title/home.html.twig');
+    public function home(): Response
+    {
+        return $this->render('title/home.html.twig',[
+            'title' => "Home Page",
+        ]);
+    }
+
+    /**
+     * @Route("/theme", name="theme")
+     */
+    public function theme(): Response
+    {
+        return $this->render('title/theme.html.twig', [
+            'title' => "Theme Page"
+        ]);
     }
 }
