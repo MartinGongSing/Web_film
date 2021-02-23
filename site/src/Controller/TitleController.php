@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Film;
 use App\Repository\FilmRepository;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -50,10 +51,13 @@ class TitleController extends AbstractController
 
     /**
      * @Route("/title/new", name="title_create")
+     * @Route("/title/{id}/edit", name="film_edit")
      */
-    public function create(Request $request) {
-        $film = new Film();
-
+    public function form(Film $film = null, Request $request) {         //, ObjectManager $manager
+        if(!$film){
+              $film = new Film();
+        }
+      
         $form = $this->createFormBuilder($film)
         // rajouter les attributs (ce qui est dans les cases en grisé)
                     ->add('Number', NumberType::class, [
@@ -111,7 +115,8 @@ class TitleController extends AbstractController
 
 
         return $this->render('title/create.html.twig', [
-            'formFilm' => $form ->createView()
+            'formFilm' => $form ->createView(),
+            'editMode' => $film->getId() !== null
         ]);
 
     }
