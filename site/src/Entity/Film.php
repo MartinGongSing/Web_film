@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FilmRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,28 @@ class Film
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $Info;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Thema::class, inversedBy="films")
+     */
+    private $thema;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Actors::class, mappedBy="Film")
+     */
+    private $actors;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Acteur::class, mappedBy="films")
+     */
+    private $acteurs;
+
+
+    public function __construct()
+    {
+        $this->actors = new ArrayCollection();
+        $this->acteurs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -141,4 +165,71 @@ class Film
 
         return $this;
     }
+
+    public function getThema(): ?Thema
+    {
+        return $this->thema;
+    }
+
+    public function setThema(?Thema $thema): self
+    {
+        $this->thema = $thema;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Actor[]
+     */
+    public function getActors(): Collection
+    {
+        return $this->actors;
+    }
+
+    public function addActor(Actors $actor): self
+    {
+        if (!$this->actors->contains($actor)) {
+            $this->actors[] = $actor;
+            $actor->addFilm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActor(Actors $actor): self
+    {
+        if ($this->actors->removeElement($actor)) {
+            $actor->removeFilm($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Acteur[]
+     */
+    public function getActeurs(): Collection
+    {
+        return $this->acteurs;
+    }
+
+    public function addActeur(Acteur $acteur): self
+    {
+        if (!$this->acteurs->contains($acteur)) {
+            $this->acteurs[] = $acteur;
+            $acteur->addFilm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActeur(Acteur $acteur): self
+    {
+        if ($this->acteurs->removeElement($acteur)) {
+            $acteur->removeFilm($this);
+        }
+
+        return $this;
+    }
+
 }
