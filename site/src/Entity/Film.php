@@ -29,10 +29,6 @@ class Film
      */
     private $Title;
 
-    /**
-     * @ORM\Column(type="string", length=60, nullable=true)
-     */
-    private $Theme;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -105,17 +101,6 @@ class Film
         return $this;
     }
 
-    public function getTheme(): ?string
-    {
-        return $this->Theme;
-    }
-
-    public function setTheme(?string $Theme): self
-    {
-        $this->Theme = $Theme;
-
-        return $this;
-    }
 
     public function getActor(): ?string
     {

@@ -6,8 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Film;
+use App\Entity\Thema;
 use App\Repository\FilmRepository;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -70,17 +72,6 @@ class TitleController extends AbstractController
                             'placeholder' => "Titre du film",
                         ]
                     ])
-                    ->add('Theme', ChoiceType::class,[
-                        'choices' => [ 
-                            'Acteurs Français' => 'Acteurs Français',
-                            'Acteurs Etrangers' => 'Acteurs Etrangers',
-                            'Musical' => 'Musical',
-                            'Documentaire' => 'Documentaire',
-                            'Western' => 'Western',
-                            'AUTRE' => 'Autre',
-                        ]
-                    ],
-                    )
                     ->add('Actor', TextType::class,[
                         'attr' => [
                             'placeholder' => "Acteur principal",
@@ -100,6 +91,10 @@ class TitleController extends AbstractController
                         'attr' => [
                             'placeholder' => "Information sur le film",
                         ]
+                    ])
+                    ->add('Thema', EntityType::class, [
+                        'class' => Thema ::class,
+                        'choice_label' => 'name',
                     ])
                     ->getForm();
         $form->handleRequest($request); 
