@@ -115,4 +115,45 @@ class TitleController extends AbstractController
         ]);
 
     }
+
+
+
+
+
+
+
+    /**
+     * @Route("/title/new.th", name="thema_create")
+     */
+    public function Tform(Thema $thema = null, Request $request) {         //, ObjectManager $manager
+        if(!$thema){
+              $thema = new thema();
+        }
+      
+        $Tform = $this->createFormBuilder($thema)
+        // rajouter les attributs (ce qui est dans les cases en grisé)    
+                    ->add('name', TextType::class,[
+                        'attr' => [
+                            'placeholder' => "Nom du thème",
+                        ]
+                    ])
+                    ->getForm();
+        $Tform->handleRequest($request); 
+
+        // dump($thema);
+        if($Tform->isSubmitted() && $Tform->isValid()){
+
+            // $manager->persist($thema);
+            // $manager->flush();
+
+            return $this->redirectToRoute('title');
+        }
+
+
+        return $this->render('title/new.th.html.twig', [
+            'formThema' => $Tform ->createView(),
+            'editModeT' => $thema->getId() !== null
+        ]);
+
+    }
 }

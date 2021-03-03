@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% form_theme formThema 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+        {% if editModeT %}
+            <h1> Modification d'un thème </h1>
+        {% else %}
+            <h1> Ajout d'un nouveau thème </h1>
+        {% endif %}
+
+
+    {{ form_start(formThema) }}
+
+
+    {{ form_widget(formThema) }}
+
+    <button type="submit" class="btn btn-success"> 
+        {% if editModeT %}
+            Enregistrer
+        {% else %}
+            Ajouter le Thème
+        {% endif %}
+        
+    </button>
+
+    {{ form_end(formThema) }}
+
+{% endblock %}

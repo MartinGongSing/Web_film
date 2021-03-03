@@ -11,7 +11,7 @@
     {% for film in films %}
         <p> {{ film.Number}} </p>
         <h2> {{ film.Title }} , {{ film.Year}} </h2>
-        <h3> {{ film.Theme}}  </h3>
+        <h3> {{ film.thema.name}}  </h3>
         <h4> {{ film.Actor}} <br> </h4>     
         <a href="/title/{{film.id}}/edit" class="btn btn-light"> Modifier </a>
         <br><br>
