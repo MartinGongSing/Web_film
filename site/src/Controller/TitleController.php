@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Film;
 use App\Entity\Thema;
 use App\Repository\FilmRepository;
+use App\Repository\ThemaRepository;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,10 +45,13 @@ class TitleController extends AbstractController
     /**
      * @Route("/theme", name="theme")
      */
-    public function theme(): Response
+    public function theme(ThemaRepository $reposi): Response
     {
+        $themas=$reposi->findAll();
+
         return $this->render('title/theme.html.twig', [
-            'title' => "Theme Page"
+            'title' => "Theme Page",
+            'themas' => $themas
         ]);
     }
 
@@ -123,7 +127,8 @@ class TitleController extends AbstractController
 
 
     /**
-     * @Route("/title/new.th", name="thema_create")
+     * @Route("/thema/new.th", name="thema_create")
+     * @Route("/thema/{id}/edit", name="thema_edit")
      */
     public function Tform(Thema $thema = null, Request $request) {         //, ObjectManager $manager
         if(!$thema){
@@ -146,14 +151,25 @@ class TitleController extends AbstractController
             // $manager->persist($thema);
             // $manager->flush();
 
-            return $this->redirectToRoute('title');
+            return $this->redirectToRoute('thema');
         }
 
 
-        return $this->render('title/new.th.html.twig', [
+        return $this->render('thema/new.th.html.twig', [
             'formThema' => $Tform ->createView(),
             'editModeT' => $thema->getId() !== null
         ]);
 
     }
+
+
+    // public function search(){
+    //     $formSea = $this -> createFormBuilder(null)
+    //         ->add('search', TextType::class)
+    //     ->getForm();
+
+    //     return $this->render('AppBundle:Post:Search', [
+    //         'formSearch' => $formSea->createView()
+    //     ]);
+    // }
 }

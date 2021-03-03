@@ -4,9 +4,17 @@
 
 {% block body %}
     <section class="film">
-        <h2>Films Classés par </h2>
         <h1>Thème</h1>
         <p> Dans theme.html.twig</p>
+        <h4>Search bar : CTRL + F</h4>
+
+        {% for thema in themas %}
+        <h3> {{ thema.name}} </h3>
+     
+        <a href="/thema/{{thema.id}}/edit" class="btn btn-light"> Modifier </a>
+        <br><br>
+        
+    {% endfor %}
     
     </section>
 
