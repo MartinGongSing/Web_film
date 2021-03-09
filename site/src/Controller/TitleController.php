@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -38,7 +39,7 @@ class TitleController extends AbstractController
     public function home(): Response
     {
         return $this->render('title/home.html.twig',[
-            'title' => "Home Page",
+            'title' => "Bienvenue",
         ]);
     }
 
@@ -163,13 +164,39 @@ class TitleController extends AbstractController
     }
 
 
-    // public function search(){
-    //     $formSea = $this -> createFormBuilder(null)
-    //         ->add('search', TextType::class)
-    //     ->getForm();
 
-    //     return $this->render('AppBundle:Post:Search', [
-    //         'formSearch' => $formSea->createView()
-    //     ]);
-    // }
+    /**
+     * @Route("/search", name="search")
+     */
+    public function search(){
+        $formSea = $this -> createFormBuilder(null)
+            ->add('Recherche', TextType::class)
+            ->add('search', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                ]
+            ])
+        ->getForm();
+
+      
+
+        return $this->render('search/searchBar.html.twig', [
+            'formSearch' => $formSea->createView()
+        ]);
+    }
+
+
+
+    /**
+     * @Route("/search2", name="handleSearch")
+     */
+    public function handleSearch(Request $requestSea)
+    {
+        var_dump($requestSea->request);
+        die();
+
+        // $formSea->handleRequest($requestSea); 
+    }
+    
+
 }

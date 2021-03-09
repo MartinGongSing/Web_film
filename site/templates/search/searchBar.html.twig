@@ -1,0 +1,23 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche{% endblock %}
+
+{% block body %}
+   {# {{form_start(formSearch, {
+       'attr':{'action':path('handleSearch')}
+
+   })}}
+
+   {{form_widget(formSearch.search)}} #}
+
+
+
+{{
+    form(
+        formSearch, {
+       'attr':{'action':path('handleSearch')}
+        })
+}}
+
+{% endblock %}
