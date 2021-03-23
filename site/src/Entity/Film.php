@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\FilmRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,52 +17,62 @@ class Film
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $Number;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $Title;
 
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("post:read")
      */
     private $Actor;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $Year;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups("post:read")
      */
     private $Prop;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("post:read")
      */
     private $Info;
 
     /**
      * @ORM\ManyToOne(targetEntity=Thema::class, inversedBy="films")
+     * @Groups("post:read")
      */
     private $thema;
 
     /**
      * @ORM\ManyToMany(targetEntity=Actors::class, mappedBy="Film")
+     * @Groups("post:read")
      */
     private $actors;
 
     /**
      * @ORM\ManyToMany(targetEntity=Acteur::class, mappedBy="films")
+     * @Groups("post:read")
      */
     private $acteurs;
 
