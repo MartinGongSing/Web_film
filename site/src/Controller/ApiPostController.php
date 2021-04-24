@@ -55,7 +55,7 @@ class ApiPostController extends AbstractController
             $errors =$validator->validate($post);
 
             if (count($errors) > 0){
-                return $this->json($errors, 400)
+                return $this->json($errors, 400);
             }
 
             $em->persist($post);
@@ -68,6 +68,6 @@ class ApiPostController extends AbstractController
                 'status'=>400,
                 'message'=>$e->getMessage()
             ],400);
-        }
+        } 
     }
 }
