@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Mes Films App';
-  F1 = 'Mamma Mia'
-  F2 = 'Shrek'
-  F3 = 'LOTR'
+  F1 = 'Mamma Mia';
+  F2 = 'Shrek';
+  F3 = 'LOTR';
   isAuth = false;
   constructor(){
     setTimeout(

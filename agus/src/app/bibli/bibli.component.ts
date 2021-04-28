@@ -7,8 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class BibliComponent implements OnInit {
 
-  @Input() filmName: string;
-  @Input() filmGenre: string;
+  @Input() filmNam?: string;
+  @Input() filmGenre?: string;
   constructor() { }
 
   ngOnInit(): void {
