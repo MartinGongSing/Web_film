@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass=FilmRepository::class)
  */
@@ -18,18 +20,21 @@ class Film
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("post:read")
+     * @Assert\NotBlank
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
      * @Groups("post:read")
+     * @Assert\NotBlank
      */
     private $Number;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("post:read")
+     * @Assert\NotBlank
      */
     private $Title;
 
@@ -37,6 +42,7 @@ class Film
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups("post:read")
+     * @Assert\NotBlank
      */
     private $Actor;
 

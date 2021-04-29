@@ -21,37 +21,23 @@ class ApiPostController extends AbstractController
      */
     public function index(FilmRepository $repo): Response
     {
-
         return $this->json($repo->findAll(), 200,[],['groups'=> 'post:read']);
-        // $films=$repo->findAll();
-
-        //dd($film);
-
-        // $filmsNormalises = $normalizer->normalize($films, null, ['groups' => 'film:read']);
-        // $json = json_encode($filmsNormalises);
-
-        // // dd($json, $films);
-
-        // $response = new Response($json, 200, [
-        //     "Content-Type" => "application/json"
-        // ]);
-
-        // return $response;
-
     }
 
+
+
     /**
-     * @Route("/api/post", name="stor", methods={"POST"})
+     * @Route("/api/post", name="api_post_store", methods={"POST"})
      */
     public function store(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator)//: Response
     {
         $jsonRecu = $request->getContent();
 
-        // dd($jsonRecu)
 
         try{
             $post = $serializer->deserialize($jsonRecu, Post::class, 'json');
-            $post->setCreatedAt(new \DateTime());
+            // $post->setCreatedAt(new \DateTime());
+
             $errors =$validator->validate($post);
 
             if (count($errors) > 0){
@@ -61,6 +47,7 @@ class ApiPostController extends AbstractController
             $em->persist($post);
             $em->flush();
 
+            dd($jsonRecu);
             return $this->json($post, 201, [], ['groups'=>'post:read']);
 
         } catch(NotEncodableValueException $e){ 
