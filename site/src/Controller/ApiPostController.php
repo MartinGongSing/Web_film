@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\FilmRepository;
+use App\Repository\ThemaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,29 +15,43 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+
 class ApiPostController extends AbstractController
 {
     /**
-     * @Route("/api/post", name="api_post_index", methods={"GET"})
+     * @Route("/api/film", name="api_post_index", methods={"GET"})
      */
     public function index(FilmRepository $repo): Response
     {
-        return $this->json($repo->findAll(), 200,[],['groups'=> 'post:read']);
+
+        return $this->json($repo->findAll(), 200,['Access-Control-Allow-Origin'=> '*'],['groups'=> 'post:read']);
+    }
+
+    /**
+     * @Route("/api/thema", name="api_thema_index", methods={"GET"})
+     */
+    public function indexa(ThemaRepository $reposi): Response
+    {
+
+        return $this->json($reposi->findAll(), 200,['Access-Control-Allow-Origin'=> '*'],['groups'=> 'post:read']);
     }
 
 
 
+
     /**
-     * @Route("/api/post", name="api_post_store", methods={"POST"})
+     * @Route("/api/newfilm", name="api_post_store", methods={"POST"})
      */
     public function store(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator)//: Response
     {
         $jsonRecu = $request->getContent();
-
+        dd($jsonRecu);
+        
 
         try{
             $post = $serializer->deserialize($jsonRecu, Post::class, 'json');
-            // $post->setCreatedAt(new \DateTime());
+        //     // $post->setCreatedAt(new \DateTime());
+            dd($post);
 
             $errors =$validator->validate($post);
 

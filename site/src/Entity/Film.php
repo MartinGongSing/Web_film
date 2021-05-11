@@ -20,7 +20,7 @@ class Film
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("post:read")
-     * @Assert\NotBlank
+     
      */
     private $id;
 

@@ -9,7 +9,7 @@ use App\Entity\Film;
 use App\Entity\Thema;
 use App\Repository\FilmRepository;
 use App\Repository\ThemaRepository;
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -44,7 +44,7 @@ class TitleController extends AbstractController
     }
 
     /**
-     * @Route("/theme", name="theme")
+     * @Route("/thema", name="thema")
      */
     public function theme(ThemaRepository $reposi): Response
     {
@@ -60,13 +60,14 @@ class TitleController extends AbstractController
      * @Route("/title/new", name="title_create")
      * @Route("/title/{id}/edit", name="film_edit")
      */
-    public function form(Film $film = null, Request $request) {         //, ObjectManager $manager
+    public function form(Film $film = null, Request $request, ManagerRegistry $manager) {         //, ObjectManager $manager
         if(!$film){
               $film = new Film();
         }
       
         $form = $this->createFormBuilder($film)
         // rajouter les attributs (ce qui est dans les cases en grisé)
+
                     ->add('Number', NumberType::class, [
                         'attr' => [
                             'placeholder' => "Numéro de classement",
@@ -110,6 +111,10 @@ class TitleController extends AbstractController
             // $manager->persist($film);
             // $manager->flush();
 
+            $em = $manager->getManager();
+            $em->persist($film);
+            $em->flush();
+
             return $this->redirectToRoute('title');
         }
 
@@ -128,10 +133,10 @@ class TitleController extends AbstractController
 
 
     /**
-     * @Route("/thema/new.th", name="thema_create")
+     * @Route("/thema/newth", name="thema_create")
      * @Route("/thema/{id}/edit", name="thema_edit")
      */
-    public function Tform(Thema $thema = null, Request $request) {         //, ObjectManager $manager
+    public function Tform(Thema $thema = null, Request $request, ManagerRegistry $manager) {         //
         if(!$thema){
               $thema = new thema();
         }
@@ -152,11 +157,15 @@ class TitleController extends AbstractController
             // $manager->persist($thema);
             // $manager->flush();
 
+            $em = $manager->getManager();
+            $em->persist($thema);
+            $em->flush();
+
             return $this->redirectToRoute('thema');
         }
 
 
-        return $this->render('thema/new.th.html.twig', [
+        return $this->render('thema/newth.html.twig', [
             'formThema' => $Tform ->createView(),
             'editModeT' => $thema->getId() !== null
         ]);
