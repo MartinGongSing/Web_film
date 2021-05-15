@@ -60,9 +60,9 @@ class ApiPostController extends AbstractController
     public function filmNew(Request $request, ManagerRegistry $manager,  EntityManagerInterface $em2, SerializerInterface $serializer, ValidatorInterface $validator)//: Response     
     {
 
-        // if ($request->isMethod('OPTIONS')) {
-        //     return $this->json([], 200, ["Access-Control-Allow-Origin" => "*", "Access-Control-Allow-Headers" => "*", "Access-Control-Allow-Methods" => "*"]);
-        // }
+        if ($request->isMethod('OPTIONS')) {
+            return $this->json([], 200, ["Access-Control-Allow-Origin" => "*", "Access-Control-Allow-Headers" => "*", "Access-Control-Allow-Methods" => "*"]);
+        }
 
         try{
             $json = $request->getContent();
@@ -105,6 +105,57 @@ class ApiPostController extends AbstractController
         }
 
     }
+
+
+
+
+    
+
+    /**
+     * @Route("/api/new/thema", name="api_new_thema", methods={"POST","OPTIONS"})
+     */
+    public function themaNew(Request $request, ManagerRegistry $manager,  EntityManagerInterface $em2, SerializerInterface $serializer, ValidatorInterface $validator)//: Response     
+    {
+
+        if ($request->isMethod('OPTIONS')) {
+            return $this->json([], 200, ["Access-Control-Allow-Origin" => "*", "Access-Control-Allow-Headers" => "*", "Access-Control-Allow-Methods" => "*"]);
+        }
+
+        try{
+            $json = $request->getContent();
+            $newThema = json_decode($json);
+
+          
+
+            $dbOrder = new Thema();
+            $dbOrder->setName($newThema->name);
+
+        
+
+            $errors = $validator->validate($dbOrder);
+            if(count($errors)>0){
+                return $this->json($errors, 400,["Access-Control-Allow-Origin" => "*", "Access-Control-Allow-Headers" => "*", "Access-Control-Allow-Methods" => "*"],['groups'=>'post:read']);
+            }
+
+            
+
+            $em = $manager->getManager();
+            $em->persist($dbOrder);
+            $em->flush();
+            
+            return $this->json($dbOrder,201,["Access-Control-Allow-Origin" => "*", "Access-Control-Allow-Headers" => "*", "Access-Control-Allow-Methods" => "*"],['groups'=>'post:read']);
+
+
+        }catch(NotEncodableValueException $e){
+            return $this->json([
+                'status'=>400 ,
+                'message'=> $e->getMessage()
+            ], 400, ["Access-Control-Allow-Origin" => "*", "Access-Control-Allow-Headers" => "*", "Access-Control-Allow-Methods" => "*"],['groups'=>'product:read']);
+        }
+
+    }
+
+
 
 
     
