@@ -68,19 +68,19 @@ class Film
     private $Info;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Thema::class, inversedBy="films")
+     * @ORM\ManyToOne(targetEntity=Thema::class, inversedBy="films",cascade="persist")
      * @Groups("post:read")
      */
     private $thema;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Actors::class, mappedBy="Film")
+     * @ORM\ManyToMany(targetEntity=Actors::class, mappedBy="Film",cascade="persist")
      * @Groups("post:read")
      */
     private $actors;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Acteur::class, mappedBy="films")
+     * @ORM\ManyToMany(targetEntity=Acteur::class, mappedBy="films",cascade="persist")
      * @Groups("post:read")
      */
     private $acteurs;

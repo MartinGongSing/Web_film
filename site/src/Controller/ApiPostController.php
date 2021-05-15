@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Film;
+use App\Entity\Thema;
 use App\Repository\FilmRepository;
 use App\Repository\ThemaRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,46 +54,6 @@ class ApiPostController extends AbstractController
 
 
 
-    // /**
-    //  * @Route("/api/newfilm", name="api_post_store", methods={"POST"})
-    //  */
-    // public function store(Request $request,  EntityManagerInterface $em, SerializerInterface $serializer, ValidatorInterface $validator)//: Response     
-    // {
-    //     $jsonRecu = $request->getContent();
-    //     // dd($jsonRecu);
-
-
-    //     $encoders = array(new JsonEncoder());
-    //     $normalizers = array(new ObjectNormalizer());
-    //     $serializer = new Serializer($normalizers, $encoders);
-        
-
-    //     try{
-    //         $post = $serializer->deserialize($jsonRecu, Post::class, 'json');
-    //     //     // $post->setCreatedAt(new \DateTime());
-    //         dd($post);
-
-    //         $errors =$validator->validate($post);
-
-    //         if (count($errors) > 0){
-    //             return $this->json($errors, 400);
-    //         }
-
-    //         $em->persist($post);
-    //         $em->flush();
-
-    //         dd($jsonRecu);
-    //         return $this->json($post, 201, [], ['groups'=>'post:read']);
-
-    //     } catch(NotEncodableValueException $e){ 
-    //         return $this->json([
-    //             'status'=>400,
-    //             'message'=>$e->getMessage()
-    //         ],400);
-    //     } 
-    // }
-
-
     /**
      * @Route("/api/new/film", name="api_new_film", methods={"POST","OPTIONS"})
      */
@@ -107,6 +68,8 @@ class ApiPostController extends AbstractController
             $json = $request->getContent();
             $newFilm = json_decode($json);
 
+            $newThema = new Thema();
+
             $dbOrder = new Film();
             $dbOrder->setNumber($newFilm->Number);
             $dbOrder->setTitle($newFilm->Title);
@@ -114,6 +77,10 @@ class ApiPostController extends AbstractController
             $dbOrder->setYear($newFilm->Year);
             $dbOrder->setProp($newFilm->Prop);
             $dbOrder->setInfo($newFilm->Info);
+            
+
+            $newThema->setName($newFilm->thema->name);
+            $dbOrder->setThema($newThema);
 
 
             $errors = $validator->validate($dbOrder);
@@ -121,11 +88,11 @@ class ApiPostController extends AbstractController
                 return $this->json($errors, 400,["Access-Control-Allow-Origin" => "*", "Access-Control-Allow-Headers" => "*", "Access-Control-Allow-Methods" => "*"],['groups'=>'post:read']);
             }
 
-            // ERROR DE DOCTRINE : NO PERSISTENCE IN THE DB
+            
 
-            // $em = $manager->getManager();
-            // $em->persist($newFilm);
-            // $em->flush();
+            $em = $manager->getManager();
+            $em->persist($dbOrder);
+            $em->flush();
             
             return $this->json($dbOrder,201,["Access-Control-Allow-Origin" => "*", "Access-Control-Allow-Headers" => "*", "Access-Control-Allow-Methods" => "*"],['groups'=>'post:read']);
 
@@ -138,6 +105,9 @@ class ApiPostController extends AbstractController
         }
 
     }
+
+
+    
 
 
 
