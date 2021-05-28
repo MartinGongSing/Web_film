@@ -55,7 +55,7 @@ class ApiPostController extends AbstractController
 
 
     /**
-     * @Route("/api/new/film", name="api_new_film", methods={"POST","OPTIONS"})
+     * @Route("/api/new/film", name="api_new_filmaa", methods={"POST","OPTIONS"})
      */
     public function filmNew(Request $request, ManagerRegistry $manager,  EntityManagerInterface $em2, SerializerInterface $serializer, ValidatorInterface $validator)//: Response     
     {
